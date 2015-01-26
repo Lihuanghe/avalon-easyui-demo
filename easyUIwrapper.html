@@ -1,4 +1,5 @@
-﻿<html>
+﻿<!doctype html>
+<html>
 <head>
         <!-- 加载jquery-easyui -->  
         <link rel="stylesheet" href="./themes/default/easyui.css">
@@ -45,20 +46,20 @@
 			avalonUIwrapper : './avalonUIwrapper'
 		}
 	});
-	
-	 require(['avalon','avalonUIwrapper'],function(avalon, wrapper){
+
+	 require(['avalon','avalonUIwrapper','jquery','easyui'],function(avalon, wrapper){
 	 //装配wrapper
 	 wrapper.wrapper('datagrid', function(vm){
-		vm.wrapper.datagrid(vm.wrapperOptions);
+		$(vm.element).datagrid(vm.wrapperOptions);
 	 });
 	 wrapper.wrapper('calendar', function(vm){
-		vm.wrapper.calendar(vm.wrapperOptions);
+		$(vm.element).calendar(vm.wrapperOptions);
 	 });
 	 wrapper.wrapper('tree', function(vm){
-		vm.wrapper.tree(vm.wrapperOptions);
+		$(vm.element).tree(vm.wrapperOptions);
 	 });
 	 wrapper.wrapper('tabs', function(vm){
-		vm.wrapper.tabs(vm.wrapperOptions);
+		$(vm.element).tabs(vm.wrapperOptions);
 	 });
 	 	var d1 = Math.floor((Math.random()*30)+1);
         var d2 = Math.floor((Math.random()*30)+1);
@@ -91,9 +92,9 @@
 		}
 	}],
     onSelect:function(title){
-		var text = JSON.stringify(avalon.vmodels['abcded'].wrapper.datagrid('getData'));
+		var text = JSON.stringify($(avalon.vmodels['abcded'].element).datagrid('getData'));
 		var tab = $(this).tabs('getSelected');
-		avalon.vmodels['tabs1'].wrapper.tabs('update',{tab : tab, options : {title: 'New Title',content:text}});
+		$(avalon.vmodels['tabs1'].element).tabs('update',{tab : tab, options : {title: 'New Title',content:text}});
 		
     }}},
 	 $treeopt:{wrapperOptions:{
@@ -149,7 +150,12 @@
 			replynumber:'replynumber-'+Math.ceil(Math.random()*1000)};
 			tmp.push(row);
 		});
-		avalon.vmodels['abcded'].wrapper.datagrid('loadData',tmp);
+		$(avalon.vmodels.abcded.element).datagrid('loadData',tmp);
+		
+		var tabelement = $(avalon.vmodels.tabs1.element)
+		var text = JSON.stringify($(avalon.vmodels.abcded.element).datagrid('getData'));
+		var tab = tabelement.tabs('getSelected');
+		tabelement.tabs('update',{tab : tab, options : {title: 'New Title',content:text}});
 	 }
 	 });
 
